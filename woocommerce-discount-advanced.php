@@ -31,7 +31,11 @@ add_action('plugins_loaded', function () {
     }
     
     if (class_exists(\Roots\Acorn\Bootloader::class)) {
-        \Roots\Acorn\Bootloader::getInstance()->boot();
+        $app = \Roots\Acorn\Application::getInstance();
+        $bootloader = \Roots\Acorn\Bootloader::getInstance();
+        if (!$app->isBooted()) {
+            $bootloader->boot();
+        }
     } else {
         add_action('admin_notices', function() {
             echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'woocommerce_discount_advanced') . '</p></div>';

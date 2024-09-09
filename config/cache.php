@@ -31,7 +31,7 @@ return [
         // Cache basata su file (predefinita)
         'file' => [
             'driver' => 'file',
-            'path'   => WP_CONTENT_DIR . '/cache/' . env('APP_SLUG', 'woo-advanced-discounts'),
+            'path'   => WP_CONTENT_DIR . '/cache/' . env('APP_SLUG', 'woocommerce_discount_advanced'),
         ],
 
         // Cache basata su Redis
@@ -58,5 +58,5 @@ return [
     |
     */
 
-    'prefix' => env('APP_SLUG', 'woo-advanced-discounts'),
+    'prefix' => env('APP_SLUG', 'woocommerce_discount_advanced'),
 ];
