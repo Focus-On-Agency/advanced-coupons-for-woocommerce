@@ -13,14 +13,9 @@ class ConfigurationServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $files = glob(__DIR__ . '/../../config/*.php');
-
-        foreach ($files as $file) {
-            $config = require $file;
-
-            foreach ($config as $key => $value) {
-                $this->app['config']->set($key, $value);
-            }
-        }
+        $this->mergeConfigFrom(
+            plugin_dir_path(__DIR__) . '../config/woocommerce_discount_advanced.php', 
+            'woocommerce_discount_advanced'
+        );
     }
 }

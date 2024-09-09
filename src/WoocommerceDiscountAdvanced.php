@@ -29,7 +29,7 @@ class WoocommerceDiscountAdvanced
 
     public function register()
     {
-        $configProviders = ServiceProvider::defaultProviders()->merge(config('app.providers', []))
+        $configProviders = ServiceProvider::defaultProviders()->merge(config('woocommerce_discount_advanced.providers', []))
             ->toArray()
         ;
 

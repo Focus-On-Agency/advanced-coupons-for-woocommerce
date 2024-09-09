@@ -25,32 +25,30 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once __DIR__ . '/vendor/autoload.php';
-} else {
-    add_action('admin_notices', function() {
-        echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Composer dependencies not found.', 'woocommerce_discount_advanced') . '</p></div>';
-    });
-
-    deactivate_plugins(plugin_basename(__FILE__));
-    return;
-}
-
-if (class_exists(\Roots\Acorn\Bootloader::class)) {
-    \Roots\Acorn\Bootloader::getInstance()->boot();
-} else {
-    add_action('admin_notices', function() {
-        echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'woocommerce_discount_advanced') . '</p></div>';
-    });
-
-    deactivate_plugins(plugin_basename(__FILE__));
-    return;
-}
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
 add_action('plugins_loaded', function () {
+    if (!class_exists(\Roots\Acorn\Bootloader::class) && file_exists(__DIR__ . '/vendor/autoload.php')) {
+        require_once __DIR__ . '/vendor/autoload.php';
+    } else {
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Composer dependencies not found.', 'woocommerce_discount_advanced') . '</p></div>';
+        });
+
+        deactivate_plugins(plugin_basename(__FILE__));
+        return;
+    }
+
+    if (class_exists(\Roots\Acorn\Bootloader::class)) {
+        \Roots\Acorn\Bootloader::getInstance()->boot();
+    } else {
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'woocommerce_discount_advanced') . '</p></div>';
+        });
+
+        deactivate_plugins(plugin_basename(__FILE__));
+        return;
+    }
+
+
     load_plugin_textdomain('woocommerce_discount_advanced', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
     if (class_exists(\Focuson\WoocommerceDiscountAdvanced\WoocommerceDiscountAdvanced::class)) {
