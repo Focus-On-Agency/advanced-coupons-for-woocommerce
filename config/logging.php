@@ -11,7 +11,7 @@ return [
 
         'single' => [
             'driver' => 'single',
-            'path' => WP_CONTENT_DIR . '/logs/woocommerce_discount_advanced.log',
+            'path' => WP_CONTENT_DIR . '/logs/advanced_coupons_for_woocommerce.log',
             'level' => 'debug',
         ],
     ],

@@ -2,8 +2,8 @@
 	@php
 	woocommerce_wp_select(array(
 		'id' => 'wda_product_tags_included',
-		'label' => __('Product Tags', 'woocommerce_discount_advanced'),
-		'description' => __('Include the product tags that this coupon will be applied to.', 'woocommerce_discount_advanced'),
+		'label' => __('Product Tags', 'advanced_coupons_for_woocommerce'),
+		'description' => __('Include the product tags that this coupon will be applied to.', 'advanced_coupons_for_woocommerce'),
 		'desc_tip' => true,
 		'options' => $tags,
 		'class' => 'wc-enhanced-select',
@@ -11,7 +11,7 @@
 		'name' => 'wda_product_tags_included[]',
 		'custom_attributes' => array(
 			'multiple' => 'multiple',
-			'data-placeholder' => __('Any tags', 'woocommerce_discount_advanced'),
+			'data-placeholder' => __('Any tags', 'advanced_coupons_for_woocommerce'),
 		),
 	));
 	@endphp
@@ -19,8 +19,8 @@
 	@php
 	woocommerce_wp_select(array(
 		'id' => 'wda_product_tags_excluded',
-		'label' => __('Exclude tags', 'woocommerce_discount_advanced'),
-		'description' => __('Exclude the product tags that this coupon will be applied to.', 'woocommerce_discount_advanced'),
+		'label' => __('Exclude tags', 'advanced_coupons_for_woocommerce'),
+		'description' => __('Exclude the product tags that this coupon will be applied to.', 'advanced_coupons_for_woocommerce'),
 		'desc_tip' => true,
 		'options' => $tags,
 		'class' => 'wc-enhanced-select',
@@ -28,7 +28,7 @@
 		'name' => 'wda_product_tags_excluded[]',
 		'custom_attributes' => array(
 			'multiple' => 'multiple',
-			'data-placeholder' => __('Any tags', 'woocommerce_discount_advanced'),
+			'data-placeholder' => __('Any tags', 'advanced_coupons_for_woocommerce'),
 		),
 	));
 	@endphp

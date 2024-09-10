@@ -1,6 +1,6 @@
 <?php
 
-namespace Focuson\WoocommerceDiscountAdvanced\Controllers;
+namespace Focuson\AdvancedCoupons\Controllers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
@@ -87,12 +87,12 @@ class DiscountController
 		// 1. Check min and max quantity
 		if ($min_quantity && $cart_quantity < $min_quantity) {
 			return self::wda_error_response(
-				__('The cart does not meet the minimum quantity required.', 'woocommerce_discount_advanced'),
+				__('The cart does not meet the minimum quantity required.', 'advanced_coupons_for_woocommerce'),
 			);
 		}
 		if ($max_quantity && $cart_quantity > $max_quantity) {
 			return self::wda_error_response(
-				__('The cart exceeds the maximum quantity allowed.', 'woocommerce_discount_advanced'),
+				__('The cart exceeds the maximum quantity allowed.', 'advanced_coupons_for_woocommerce'),
 			);
 		}
 
@@ -102,50 +102,50 @@ class DiscountController
 
 		if ($tags_included && !array_intersect($tags_included, $product_tags)) {
 			return self::wda_error_response(
-				__('The cart does not contain the required product tags.', 'woocommerce_discount_advanced')
+				__('The cart does not contain the required product tags.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 		if ($tags_excluded && array_intersect($tags_excluded, $product_tags)) {
 			return self::wda_error_response(
-				__('The cart contains excluded product tags.', 'woocommerce_discount_advanced')
+				__('The cart contains excluded product tags.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 
 		// 3. Check min and max orders
 		if ($min_orders && $user_orders < $min_orders) {
 			return self::wda_error_response(
-				__('You do not have enough orders to apply this coupon.', 'woocommerce_discount_advanced'),
+				__('You do not have enough orders to apply this coupon.', 'advanced_coupons_for_woocommerce'),
 			);
 		}
 		if ($max_orders && $user_orders > $max_orders) {
 			return self::wda_error_response(
-				__('You have too many orders to apply this coupon.', 'woocommerce_discount_advanced'),
+				__('You have too many orders to apply this coupon.', 'advanced_coupons_for_woocommerce'),
 			);
 		}
 
 		// 4. Check min and max total spent
 		if ($min_total_spent && $total_spent < $min_total_spent) {
 			return self::wda_error_response(
-				__('You have not spent enough to apply this coupon.', 'woocommerce_discount_advanced')
+				__('You have not spent enough to apply this coupon.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 		if ($max_total_spent && $total_spent > $max_total_spent) {
 			return self::wda_error_response(
-				__('You have spent too much to apply this coupon.', 'woocommerce_discount_advanced')
+				__('You have spent too much to apply this coupon.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 
 		// 5. Check user role
 		if ($user_roles && !array_intersect($user_roles, $user->roles)) {
 			return self::wda_error_response(
-				__('This coupon is not valid for your user role.', 'woocommerce_discount_advanced')
+				__('This coupon is not valid for your user role.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 
 		// 6. Check first order
 		if (!$first_order && $user_orders > 0) {
 			return self::wda_error_response(
-				__('This coupon is only valid for the first order.', 'woocommerce_discount_advanced')
+				__('This coupon is only valid for the first order.', 'advanced_coupons_for_woocommerce')
 			);
 		}
 

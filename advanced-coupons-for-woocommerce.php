@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Woocommerce Discount Advanced
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 1.0.0
+ * Version: 2.0.2
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
- * Text Domain: woocommerce_discount_advanced
+ * Text Domain: advanced_coupons_for_woocommerce
  * Domain Path: /languages
  * Requires at least: 5.0
  * Tested up to: 6.6
@@ -38,7 +38,7 @@ add_action('plugins_loaded', function () {
         }
     } else {
         add_action('admin_notices', function() {
-            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'woocommerce_discount_advanced') . '</p></div>';
+            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'advanced_coupons_for_woocommerce') . '</p></div>';
         });
 
         deactivate_plugins(plugin_basename(__FILE__));
@@ -46,17 +46,17 @@ add_action('plugins_loaded', function () {
     }
 
 
-    load_plugin_textdomain('woocommerce_discount_advanced', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    load_plugin_textdomain('advanced_coupons_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
-    if (class_exists(\Focuson\WoocommerceDiscountAdvanced\WoocommerceDiscountAdvanced::class)) {
-        (new \Focuson\WoocommerceDiscountAdvanced\WoocommerceDiscountAdvanced(app()))
+    if (class_exists(\Focuson\AdvancedCoupons\AdvancedCoupons::class)) {
+        (new \Focuson\AdvancedCoupons\AdvancedCoupons(app()))
             ->register()
             ->boot()
         ;
 
     } else {
         add_action('admin_notices', function() {
-            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Plugin class not found.', 'woocommerce_discount_advanced') . '</p></div>';
+            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Plugin class not found.', 'advanced_coupons_for_woocommerce') . '</p></div>';
         });
 
         deactivate_plugins(plugin_basename(__FILE__));

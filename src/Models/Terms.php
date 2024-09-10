@@ -1,6 +1,6 @@
 <?php
 
-namespace Focuson\WoocommerceDiscountAdvanced\Models;
+namespace Focuson\AdvancedCoupons\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

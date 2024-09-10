@@ -1,9 +1,9 @@
 <?php
 
-namespace Focuson\WoocommerceDiscountAdvanced\Providers;
+namespace Focuson\AdvancedCoupons\Providers;
 
-use Focuson\WoocommerceDiscountAdvanced\Controllers\DiscountController;
-use Focuson\WoocommerceDiscountAdvanced\Models\Terms;
+use Focuson\AdvancedCoupons\Controllers\DiscountController;
+use Focuson\AdvancedCoupons\Models\Terms;
 use Illuminate\Support\ServiceProvider;
 
 class FieldServiceProvider extends ServiceProvider
@@ -25,8 +25,8 @@ class FieldServiceProvider extends ServiceProvider
     {
         woocommerce_wp_checkbox(array(
             'id'          => 'wda_apply_automatically',
-            'label'       => __('Apply automatically', 'woocommerce_discount_advanced'),
-            'description' => __('If checked, the coupon will be applied automatically to the cart.', 'woocommerce_discount_advanced'),
+            'label'       => __('Apply automatically', 'advanced_coupons_for_woocommerce'),
+            'description' => __('If checked, the coupon will be applied automatically to the cart.', 'advanced_coupons_for_woocommerce'),
             'desc_tip'    => true,
         ));
     }
@@ -35,10 +35,10 @@ class FieldServiceProvider extends ServiceProvider
     {
         $tags = Terms::getProductTags()->pluck('name', 'term_id')->toArray();
 
-        $view = config('woocommerce_discount_advanced.slug') . '::admin.quantity_restriction-fields';
+        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.quantity_restriction-fields';
         echo view($view);
 
-        $view = config('woocommerce_discount_advanced.slug') . '::admin.tag_restriction-fields';
+        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.tag_restriction-fields';
         echo view($view, [
             'tags' => $tags
         ]);
@@ -47,7 +47,7 @@ class FieldServiceProvider extends ServiceProvider
 	public function add_woocommerce_discount_user_history_tab($tabs)
     {
         $tabs['user_history_tab'] = array(
-            'label'    => __('User History', 'woocommerce_discount_advanced'),
+            'label'    => __('User History', 'advanced_coupons_for_woocommerce'),
             'target'   => 'user_history_data',
             'class'    => 'user_history_tab',
             'icon'     => 'dashicons-admin-users',
@@ -59,7 +59,7 @@ class FieldServiceProvider extends ServiceProvider
 
 	public function add_user_history_tab_content()
     {
-        $view = config('woocommerce_discount_advanced.slug') . '::admin.user_history-tab';
+        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.user_history-tab';
         echo view($view);
     }
 }

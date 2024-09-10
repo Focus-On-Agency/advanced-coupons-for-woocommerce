@@ -12,15 +12,15 @@ msgstr ""
 "POT-Creation-Date: 2024-09-08T20:51:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
-"X-Domain: woocommerce_discount_advanced\n"
+"X-Domain: advanced_coupons_for_woocommerce\n"
 
 #. Plugin Name of the plugin
-#: woocommerce-discount-advanced.php
+#: advanced-coupons-for-woocommerce.php
 msgid "Woocommerce Discount Advanced"
 msgstr "Woocommerce Rabatt Erweitert"
 
 #. Description of the plugin
-#: woocommerce-discount-advanced.php
+#: advanced-coupons-for-woocommerce.php
 msgid ""
 "A discount management plugin for WooCommerce, which allows the creation of "
 "discounts based on rules such as amount, quantity, type, of products in the "
@@ -31,12 +31,12 @@ msgstr ""
 "oder sogar Benutzerrollen usw. ermöglicht."
 
 #. Author of the plugin
-#: woocommerce-discount-advanced.php
+#: advanced-coupons-for-woocommerce.php
 msgid "Focus On"
 msgstr "Focus On"
 
 #. Author URI of the plugin
-#: woocommerce-discount-advanced.php
+#: advanced-coupons-for-woocommerce.php
 msgid "https://github.com/Focus-On-Agency"
 msgstr "https://github.com/Focus-On-Agency"
 

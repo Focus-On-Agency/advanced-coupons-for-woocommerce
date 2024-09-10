@@ -1,13 +1,12 @@
 <?php
 
-namespace Focuson\WoocommerceDiscountAdvanced;
+namespace Focuson\AdvancedCoupons;
 
-use Focuson\WoocommerceDiscountAdvanced\Controllers\DiscountController;
-use Illuminate\Support\Arr;
+use Focuson\AdvancedCoupons\Controllers\DiscountController;
 use Illuminate\Support\ServiceProvider;
 use Roots\Acorn\Application;
 
-class WoocommerceDiscountAdvanced
+class AdvancedCoupons
 {
     /**
      * The application instance.
@@ -29,7 +28,7 @@ class WoocommerceDiscountAdvanced
 
     public function register()
     {
-        $configProviders = ServiceProvider::defaultProviders()->merge(config('woocommerce_discount_advanced.providers', []))
+        $configProviders = ServiceProvider::defaultProviders()->merge(config('advanced_coupons_for_woocommerce.providers', []))
             ->toArray()
         ;
 

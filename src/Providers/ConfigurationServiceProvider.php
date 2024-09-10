@@ -1,6 +1,6 @@
 <?php
 
-namespace Focuson\WoocommerceDiscountAdvanced\Providers;
+namespace Focuson\AdvancedCoupons\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,8 +14,8 @@ class ConfigurationServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            plugin_dir_path(__DIR__) . '../config/woocommerce_discount_advanced.php', 
-            'woocommerce_discount_advanced'
+            plugin_dir_path(__DIR__) . '../config/advanced_coupons_for_woocommerce.php', 
+            'advanced_coupons_for_woocommerce'
         );
     }
 }
