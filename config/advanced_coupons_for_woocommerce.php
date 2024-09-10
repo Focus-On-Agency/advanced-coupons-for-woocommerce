@@ -12,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Woo Advanced Discounts'),
+    'name' => env('APP_NAME', 'Advanced Coupons for Woocommerce'),
 
     /*
     |--------------------------------------------------------------------------
@@ -28,5 +28,5 @@ return [
 
     'capability' => 'manage_options',
     
-    'slug' => env('APP_SLUG', 'woo_advanced_discounts'),
+    'slug' => env('APP_SLUG', 'advanced_coupons_for_woocommerce'),
 ];
