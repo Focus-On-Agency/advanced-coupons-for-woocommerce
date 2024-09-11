@@ -1,16 +1,19 @@
-# WooCommerce Discount Advanced
 
-**WooCommerce Discount Advanced** is a plugin for WooCommerce that enables advanced discount management based on flexible rules. Administrators can configure custom discounts according to various criteria such as product quantity, order history, user role, product tags, and more.
+# Advanced Coupons for Woocommerce
+
+**Advanced Coupons for Woocommerce** is a plugin for WooCommerce that enables advanced discount management based on flexible rules. Administrators can configure custom discounts according to various criteria such as product quantity, order history, user role, product tags, and more.
+
+[![Support Us](https://img.shields.io/badge/Donate-Support%20Us-blue.svg)](https://donate.stripe.com/dR6dU04JV0kx1Z6dR6)
 
 ## Description
 
 The plugin allows you to manage complex discounts by defining specific rules such as:
-- Minimum or maximum quantity of products in the cart
-- Total amount spent by the user on previous orders
-- Number of past orders placed by the user
-- Apply discounts only for specific product tags
-- Limit discounts to specific user roles
-- Automatically apply coupons when the defined rules are met
+- Minimum or maximum quantity of products in the cart.
+- Total amount spent by the user on previous orders.
+- Number of past orders placed by the user.
+- Apply discounts only for specific product tags.
+- Limit discounts to specific user roles.
+- Automatically apply coupons when the defined rules are met.
 
 ## Key Features
 
@@ -29,9 +32,28 @@ The plugin allows you to manage complex discounts by defining specific rules suc
 
 ## Installation
 
-1. Download and upload the plugin folder to the `/wp-content/plugins/` directory of your WordPress site.
-2. Go to **Plugins > Add New** and activate **WooCommerce Discount Advanced**.
-3. Configure the discount rules in **WooCommerce > Marketing > Coupons**.
+You can install the plugin in two ways:
+
+### 1. Via Composer
+1. Add the plugin repository to your composer.json by running:
+   ```bash
+   composer config repositories.advanced-coupons-for-woocommerce git https://github.com/Focus-On-Agency/advanced-coupons-for-woocommerce.git
+   ```
+2. Install the plugin:
+   ```bash
+   composer require advanced-coupons-for-woocommerce
+   ```
+3. Go to **Plugins > Add New** and activate **Advanced Coupons for Woocommerce**.
+4. Configure the discount rules in **WooCommerce > Marketing > Coupons**.
+
+### 2. Download the ZIP file
+1. Go to the GitHub repository page and download the plugin's ZIP file.
+2. Upload the ZIP file via **WordPress > Plugins > Add New > Upload Plugin**.
+3. Activate **Advanced Coupons for Woocommerce** and configure the discount rules in **WooCommerce > Marketing > Coupons**.
+
+## Star the repository
+
+If you find this plugin useful, please consider leaving a star on [GitHub](https://github.com/Focus-On-Agency/advanced-coupons-for-woocommerce). Your support is greatly appreciated!
 
 ## Usage
 
@@ -56,7 +78,7 @@ This plugin is distributed under the GPL-2.0+ license. You can find more informa
 
 ## Contributors
 
-- **pcatapan**
+- **[pcatapan]**(https://github.com/pcatapan)
 
 ## Donation Links
 
@@ -68,7 +90,7 @@ If you find this plugin useful and want to support ongoing development, consider
 A: You can configure the coupons to be automatically applied when the defined conditions are met. This option is available in the **General** tab section.
 
 **Q: Does the plugin support HPOS (High-Performance Order Storage)?**  
-A: Yes, **WooCommerce Discount Advanced** is fully compatible with HPOS.
+A: Yes, **Advanced Coupons for Woocommerce** is fully compatible with HPOS.
 
 **Q: Can I limit discounts to specific user roles?**  
 A: Yes, you can configure discounts that only apply to users with specific roles.
