@@ -78,7 +78,7 @@ This plugin is distributed under the GPL-2.0+ license. You can find more informa
 
 ## Contributors
 
-- **[pcatapan]**(https://github.com/pcatapan)
+- **[pcatapan](https://github.com/pcatapan)**
 
 ## Donation Links
 
