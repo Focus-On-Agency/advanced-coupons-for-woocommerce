@@ -18,6 +18,13 @@ class Number
     protected static $locale = 'en';
 
     /**
+     * The current default currency.
+     *
+     * @var string
+     */
+    protected static $currency = 'USD';
+
+    /**
      * Format the given number according to the current locale.
      *
      * @param  int|float  $number
@@ -115,13 +122,13 @@ class Number
      * @param  string|null  $locale
      * @return string|false
      */
-    public static function currency(int|float $number, string $in = 'USD', ?string $locale = null)
+    public static function currency(int|float $number, string $in = '', ?string $locale = null)
     {
         static::ensureIntlExtensionIsInstalled();
 
         $formatter = new NumberFormatter($locale ?? static::$locale, NumberFormatter::CURRENCY);
 
-        return $formatter->formatCurrency($number, $in);
+        return $formatter->formatCurrency($number, ! empty($in) ? $in : static::$currency);
     }
 
     /**
@@ -233,6 +240,42 @@ class Number
     }
 
     /**
+     * Split the given number into pairs of min/max values.
+     *
+     * @param  int|float  $to
+     * @param  int|float  $by
+     * @param  int|float  $offset
+     * @return array
+     */
+    public static function pairs(int|float $to, int|float $by, int|float $offset = 1)
+    {
+        $output = [];
+
+        for ($lower = 0; $lower < $to; $lower += $by) {
+            $upper = $lower + $by;
+
+            if ($upper > $to) {
+                $upper = $to;
+            }
+
+            $output[] = [$lower + $offset, $upper];
+        }
+
+        return $output;
+    }
+
+    /**
+     * Remove any trailing zero digits after the decimal point of the given number.
+     *
+     * @param  int|float  $number
+     * @return int|float
+     */
+    public static function trim(int|float $number)
+    {
+        return json_decode(json_encode($number));
+    }
+
+    /**
      * Execute the given callback using the given locale.
      *
      * @param  string  $locale
@@ -249,6 +292,22 @@ class Number
     }
 
     /**
+     * Execute the given callback using the given currency.
+     *
+     * @param  string  $currency
+     * @param  callable  $callback
+     * @return mixed
+     */
+    public static function withCurrency(string $currency, callable $callback)
+    {
+        $previousLCurrency = static::$currency;
+
+        static::useCurrency($currency);
+
+        return tap($callback(), fn () => static::useCurrency($previousLCurrency));
+    }
+
+    /**
      * Set the default locale.
      *
      * @param  string  $locale
@@ -257,6 +316,17 @@ class Number
     public static function useLocale(string $locale)
     {
         static::$locale = $locale;
+    }
+
+    /**
+     * Set the default currency.
+     *
+     * @param  string  $currency
+     * @return void
+     */
+    public static function useCurrency(string $currency)
+    {
+        static::$currency = $currency;
     }
 
     /**

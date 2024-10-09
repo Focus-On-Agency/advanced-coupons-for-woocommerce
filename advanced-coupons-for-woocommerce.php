@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Woocommerce Discount Advanced
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 2.0.3
+ * Version: 3.0
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
  * Text Domain: advanced_coupons_for_woocommerce
@@ -25,43 +25,24 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 add_action('plugins_loaded', function () {
-    if (!class_exists(\Roots\Acorn\Bootloader::class) && file_exists(__DIR__ . '/vendor/autoload.php')) {
-        require_once __DIR__ . '/vendor/autoload.php';
-    }
-    
-    if (class_exists(\Roots\Acorn\Bootloader::class)) {
-        $app = \Roots\Acorn\Application::getInstance();
-        $bootloader = \Roots\Acorn\Bootloader::getInstance();
-        if (!$app->isBooted()) {
-            $bootloader->boot();
+    // Verifica i prerequisiti o condizioni del plugin
+    if (!class_exists(\Focuson\AdvancedCoupons\Support\App::class)) {
+        add_action('admin_notices', function() {
+            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>: ' . __('Errore durante il caricamento del plugin. Classe App non trovata.', 'advanced_coupons_for_woocommerce') . '</p></div>';
+        });
+
+        if (function_exists('deactivate_plugins')) {
+            deactivate_plugins(plugin_basename(__FILE__));
         }
-    } else {
-        add_action('admin_notices', function() {
-            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Acorn not found.', 'advanced_coupons_for_woocommerce') . '</p></div>';
-        });
-
-        deactivate_plugins(plugin_basename(__FILE__));
         return;
     }
 
-
-    load_plugin_textdomain('advanced_coupons_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
-
-    if (class_exists(\Focuson\AdvancedCoupons\AdvancedCoupons::class)) {
-        (new \Focuson\AdvancedCoupons\AdvancedCoupons(app()))
-            ->register()
-            ->boot()
-        ;
-
-    } else {
-        add_action('admin_notices', function() {
-            echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>' . __(' error during plugin loading. Plugin class not found.', 'advanced_coupons_for_woocommerce') . '</p></div>';
-        });
-
-        deactivate_plugins(plugin_basename(__FILE__));
-        return;
-    }
+    (new \Focuson\AdvancedCoupons\AdvancedCoupons())
+        ->boot()
+    ;
 });
 
 add_action('before_woocommerce_init', function() {

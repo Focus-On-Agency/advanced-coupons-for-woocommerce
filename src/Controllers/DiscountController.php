@@ -2,10 +2,12 @@
 
 namespace Focuson\AdvancedCoupons\Controllers;
 
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+use Focuson\AdvancedCoupons\Support\BaseController;
 
-class DiscountController
+use Carbon\Carbon;
+use Focuson\AdvancedCoupons\Support\Cache;
+
+class DiscountController extends BaseController
 {
 	public static function store_wda_fields($post_id, $coupon)
 	{
@@ -163,7 +165,7 @@ class DiscountController
 
 	public static function wda_apply_automatic_coupons()
 	{
-		$cache_duration = now()->addYear();
+		$cache_duration = Carbon::now()->addYear();
 
 		$coupons = Cache::remember('wda_automatic_coupons', $cache_duration, function () {
 			return get_posts([

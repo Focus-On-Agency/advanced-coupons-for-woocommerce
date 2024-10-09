@@ -3,52 +3,13 @@
 namespace Focuson\AdvancedCoupons;
 
 use Focuson\AdvancedCoupons\Controllers\DiscountController;
-use Illuminate\Support\ServiceProvider;
-use Roots\Acorn\Application;
+use Focuson\AdvancedCoupons\Support\BasePlugin;
 
-class AdvancedCoupons
+class AdvancedCoupons extends BasePlugin
 {
-    /**
-     * The application instance.
-     *
-     * @var \Roots\Acorn\Application
-     */
-    protected $app;
-
-    /**
-     * Create a new Example instance.
-     *
-     * @param  \Roots\Acorn\Application  $app
-     * @return void
-     */
-    public function __construct(Application $app)
+    public function __construct()
     {
-        $this->app = $app;
-    }
-
-    public function register()
-    {
-        $configProviders = ServiceProvider::defaultProviders()->merge(config('advanced_coupons_for_woocommerce.providers', []))
-            ->toArray()
-        ;
-
-        foreach ($configProviders as $provider) {
-            if (class_exists($provider)) {
-                $this->app->register($provider);
-            }
-        }
-
-        foreach (glob(__DIR__ . '/Providers/*.php') as $providerFile) {
-            $fileName = basename($providerFile, '.php');
-
-            $provider = __NAMESPACE__ . '\\Providers\\' . $fileName;
-
-            if (class_exists($provider)) {
-                $this->app->register($provider);
-            }
-        }
-
-        return $this;
+        parent::__construct();
     }
 
     public function boot()

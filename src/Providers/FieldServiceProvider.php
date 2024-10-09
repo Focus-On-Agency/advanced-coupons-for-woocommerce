@@ -4,10 +4,15 @@ namespace Focuson\AdvancedCoupons\Providers;
 
 use Focuson\AdvancedCoupons\Controllers\DiscountController;
 use Focuson\AdvancedCoupons\Models\Terms;
-use Illuminate\Support\ServiceProvider;
+use Focuson\AdvancedCoupons\Support\BaseServiceProvider;
 
-class FieldServiceProvider extends ServiceProvider
+class FieldServiceProvider extends BaseServiceProvider
 {
+    public function __construct($app)
+    {
+        parent::__construct($app);
+    }
+    
     public function register()
     {
         add_action('woocommerce_coupon_options', [$this, 'add_field_apply_automatically'], 10, 0);
@@ -35,11 +40,11 @@ class FieldServiceProvider extends ServiceProvider
     {
         $tags = Terms::getProductTags()->pluck('name', 'term_id')->toArray();
 
-        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.quantity_restriction-fields';
-        echo view($view);
+        $view = $this->config->get('advanced_coupons_for_woocommerce.slug') . '::admin.quantity_restriction-fields';
+        echo $this->view->render($view);
 
-        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.tag_restriction-fields';
-        echo view($view, [
+        $view = $this->config->get('advanced_coupons_for_woocommerce.slug') . '::admin.tag_restriction-fields';
+        echo $this->view->render($view, [
             'tags' => $tags
         ]);
     }
@@ -59,7 +64,7 @@ class FieldServiceProvider extends ServiceProvider
 
 	public function add_user_history_tab_content()
     {
-        $view = config('advanced_coupons_for_woocommerce.slug') . '::admin.user_history-tab';
-        echo view($view);
+        $view = $this->config->get('advanced_coupons_for_woocommerce.slug') . '::admin.user_history-tab';
+        echo $this->view->render($view);
     }
 }
