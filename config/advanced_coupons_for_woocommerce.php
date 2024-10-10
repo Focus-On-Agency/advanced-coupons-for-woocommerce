@@ -28,5 +28,5 @@ return [
 
     'capability' => 'manage_options',
     
-    'slug' => env('APP_SLUG', 'advanced_coupons_for_woocommerce'),
+    'slug' => env('APP_SLUG', 'advanced-coupons-for-woocommerce'),
 ];

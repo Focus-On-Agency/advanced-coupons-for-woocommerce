@@ -12,7 +12,7 @@ msgstr ""
 "POT-Creation-Date: 2024-09-08T20:51:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
-"X-Domain: advanced_coupons_for_woocommerce\n"
+"X-Domain: advanced-coupons-for-woocommerce\n"
 
 #. Plugin Name of the plugin
 #: advanced-coupons-for-woocommerce.php

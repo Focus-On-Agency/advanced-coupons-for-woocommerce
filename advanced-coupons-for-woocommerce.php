@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: Woocommerce Discount Advanced
+ * Plugin Name: Advanced Coupons for WooCommerce
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 3.0.3
+ * Version: 3.0.4
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
- * Text Domain: advanced_coupons_for_woocommerce
+ * Text Domain: advanced-coupons-for-woocommerce
  * Domain Path: /languages
  * Requires at least: 5.0
  * Tested up to: 6.6
@@ -39,7 +39,7 @@ function initialize_advanced_coupons_plugin()
 	load_dependencies();
 
 	// Load translations
-	load_plugin_textdomain('advanced_coupons_for_woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	load_plugin_textdomain('advanced-coupons-for-woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
 
 	// Boot the plugin
 	(new \Focuson\AdvancedCoupons\AdvancedCoupons())->boot();
@@ -52,7 +52,7 @@ function check_requirements()
 {
 	// Check for Composer autoloader
 	if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-		display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced_coupons_for_woocommerce'));
+		display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced-coupons-for-woocommerce'));
 		return false;
 	}
 
@@ -73,7 +73,7 @@ function load_dependencies()
 function display_error_and_deactivate($message)
 {
 	add_action('admin_notices', function() use ($message) {
-		echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>: ' . $message . '</p></div>';
+		echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>: ' . esc_html($message) . '</p></div>';
 	});
 
 	if (function_exists('deactivate_plugins')) {

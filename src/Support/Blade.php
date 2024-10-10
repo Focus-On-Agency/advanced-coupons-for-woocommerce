@@ -38,7 +38,7 @@ class Blade
         $viewPaths = [__DIR__ . '/../../resources/views'];
         $finder = new FileViewFinder($filesystem, $viewPaths);
 
-		$finder->addNamespace(env('APP_SLUG', 'advanced_coupons_for_woocommerce'), __DIR__ . '/../../resources/views');
+		$finder->addNamespace(env('APP_SLUG', 'advanced-coupons-for-woocommerce'), __DIR__ . '/../../resources/views');
 
         $dispatcher = new Dispatcher(new Container);
 

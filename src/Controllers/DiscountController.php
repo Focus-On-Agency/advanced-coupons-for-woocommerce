@@ -11,6 +11,11 @@ class DiscountController
 {
 	public static function store_wda_fields($post_id, $coupon)
 	{
+		// Verify nonce
+		if (!isset($_POST['wda_coupon_nonce']) || !check_admin_referer('wda_save_coupon', 'wda_coupon_nonce')) {
+			wp_die(esc_html__('Security check failed. Please try again.', 'advanced-coupons-for-woocommerce'));
+		}
+		
 		$fields = [
 			'wda_min_quantity'			=> null,
 			'wda_max_quantity'			=> null,
@@ -24,7 +29,7 @@ class DiscountController
 		];
 		
 		foreach ($fields as $field => $default) {
-			$value = isset($_POST[$field]) ? wc_clean($_POST[$field]) : $default;
+			$value = isset($_POST[$field]) ? sanitize_text_field(wp_unslash($_POST[$field])) : $default;
 
 			update_post_meta($post_id, $field, $value);
 		}
@@ -89,12 +94,12 @@ class DiscountController
 		// 1. Check min and max quantity
 		if ($min_quantity && $cart_quantity < $min_quantity) {
 			return self::wda_error_response(
-				__('The cart does not meet the minimum quantity required.', 'advanced_coupons_for_woocommerce'),
+				__('The cart does not meet the minimum quantity required.', 'advanced-coupons-for-woocommerce'),
 			);
 		}
 		if ($max_quantity && $cart_quantity > $max_quantity) {
 			return self::wda_error_response(
-				__('The cart exceeds the maximum quantity allowed.', 'advanced_coupons_for_woocommerce'),
+				__('The cart exceeds the maximum quantity allowed.', 'advanced-coupons-for-woocommerce'),
 			);
 		}
 
@@ -104,50 +109,50 @@ class DiscountController
 
 		if ($tags_included && !array_intersect($tags_included, $product_tags)) {
 			return self::wda_error_response(
-				__('The cart does not contain the required product tags.', 'advanced_coupons_for_woocommerce')
+				__('The cart does not contain the required product tags.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 		if ($tags_excluded && array_intersect($tags_excluded, $product_tags)) {
 			return self::wda_error_response(
-				__('The cart contains excluded product tags.', 'advanced_coupons_for_woocommerce')
+				__('The cart contains excluded product tags.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 
 		// 3. Check min and max orders
 		if ($min_orders && $user_orders < $min_orders) {
 			return self::wda_error_response(
-				__('You do not have enough orders to apply this coupon.', 'advanced_coupons_for_woocommerce'),
+				__('You do not have enough orders to apply this coupon.', 'advanced-coupons-for-woocommerce'),
 			);
 		}
 		if ($max_orders && $user_orders > $max_orders) {
 			return self::wda_error_response(
-				__('You have too many orders to apply this coupon.', 'advanced_coupons_for_woocommerce'),
+				__('You have too many orders to apply this coupon.', 'advanced-coupons-for-woocommerce'),
 			);
 		}
 
 		// 4. Check min and max total spent
 		if ($min_total_spent && $total_spent < $min_total_spent) {
 			return self::wda_error_response(
-				__('You have not spent enough to apply this coupon.', 'advanced_coupons_for_woocommerce')
+				__('You have not spent enough to apply this coupon.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 		if ($max_total_spent && $total_spent > $max_total_spent) {
 			return self::wda_error_response(
-				__('You have spent too much to apply this coupon.', 'advanced_coupons_for_woocommerce')
+				__('You have spent too much to apply this coupon.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 
 		// 5. Check user role
 		if ($user_roles && !array_intersect($user_roles, $user->roles)) {
 			return self::wda_error_response(
-				__('This coupon is not valid for your user role.', 'advanced_coupons_for_woocommerce')
+				__('This coupon is not valid for your user role.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 
 		// 6. Check first order
 		if (!$first_order && $user_orders > 0) {
 			return self::wda_error_response(
-				__('This coupon is only valid for the first order.', 'advanced_coupons_for_woocommerce')
+				__('This coupon is only valid for the first order.', 'advanced-coupons-for-woocommerce')
 			);
 		}
 
@@ -163,6 +168,9 @@ class DiscountController
 		return false;
 	}
 
+	/**
+	 * Apply automatic coupons
+	 */
 	public static function wda_apply_automatic_coupons()
 	{
 		$cache_duration = Carbon::now()->addYear();
@@ -170,7 +178,7 @@ class DiscountController
 		$coupons = Cache::remember('wda_automatic_coupons', $cache_duration, function () {
 			return get_posts([
 				'post_type'      => 'shop_coupon',
-				'posts_per_page' => -1,
+				'posts_per_page' => 50,
 				'meta_query'     => [
 					[
 						'key'   => 'wda_apply_automatically',
