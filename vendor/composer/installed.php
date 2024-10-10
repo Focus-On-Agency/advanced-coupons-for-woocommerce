@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'focuson/advanced-coupons-for-woocommerce',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'dc2688ca352c1d43749cfb9f9fcde4a5ea681af5',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'brick/math' => array(
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'focuson/advanced-coupons-for-woocommerce' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'dc2688ca352c1d43749cfb9f9fcde4a5ea681af5',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -180,15 +180,6 @@
             'install_path' => __DIR__ . '/../illuminate/view',
             'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'larapack/dd' => array(
-            'pretty_version' => '1.1',
-            'version' => '1.1.0.0',
-            'reference' => '561b5111a13d0094b59b5c81b1572489485fb948',
-            'type' => 'package',
-            'install_path' => __DIR__ . '/../larapack/dd',
-            'aliases' => array(),
-            'dev_requirement' => true,
         ),
         'nesbot/carbon' => array(
             'pretty_version' => '3.8.0',
@@ -336,15 +327,6 @@
             'provided' => array(
                 0 => '2.3|3.0',
             ),
-        ),
-        'symfony/var-dumper' => array(
-            'pretty_version' => 'v7.1.5',
-            'version' => '7.1.5.0',
-            'reference' => 'e20e03889539fd4e4211e14d2179226c513c010d',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/var-dumper',
-            'aliases' => array(),
-            'dev_requirement' => true,
         ),
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.6.1',

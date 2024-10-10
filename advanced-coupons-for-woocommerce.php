@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Woocommerce Discount Advanced
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 3.0.1
+ * Version: 3.0.2
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
  * Text Domain: advanced_coupons_for_woocommerce
