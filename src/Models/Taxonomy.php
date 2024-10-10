@@ -11,7 +11,6 @@ class Taxonomy extends Model
 	/**
 	 * Relationships
 	 */
-
 	public function terms()
 	{
 		return $this->hasMany(Terms::class, 'term_id', 'term_id');

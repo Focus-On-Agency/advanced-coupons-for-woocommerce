@@ -22,31 +22,26 @@ class Blade
 
     protected function initializeBlade()
     {
-        // Inizializza i componenti di Blade
         $filesystem = new Filesystem();
 
-        // Percorso per i file compilati
+        // Path for the Blade cache
         $cachePath = WP_CONTENT_DIR . '/cache/advanced-coupons-cache';
 
-        // Compilatore di Blade
         $compiler = new BladeCompiler($filesystem, $cachePath);
 
-        // Risolutore di motori per gestire i template Blade
         $resolver = new EngineResolver();
         $resolver->register('blade', function () use ($compiler) {
             return new CompilerEngine($compiler);
         });
 
-        // Inizializza il Finder per i percorsi delle viste
+        // Path for the views
         $viewPaths = [__DIR__ . '/../../resources/views'];
         $finder = new FileViewFinder($filesystem, $viewPaths);
 
 		$finder->addNamespace(env('APP_SLUG', 'advanced_coupons_for_woocommerce'), __DIR__ . '/../../resources/views');
 
-        // Aggiungi un dispatcher per gli eventi
         $dispatcher = new Dispatcher(new Container);
 
-        // Inizializza la Factory di Blade con il resolver, il finder e il dispatcher degli eventi
         $this->factory = new Factory($resolver, $finder, $dispatcher);
     }
 

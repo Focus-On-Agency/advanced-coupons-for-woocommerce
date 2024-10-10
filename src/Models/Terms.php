@@ -11,7 +11,6 @@ class Terms extends Model
     /**
      * Scope
      */
-
     public static function getProductTags()
     {
         return static::whereHas('taxonomy', function ($query) {
@@ -22,7 +21,6 @@ class Terms extends Model
     /**
      * Relationships
      */
-
     public function taxonomy()
     {
         return $this->belongsTo(Taxonomy::class, 'term_id', 'term_id');

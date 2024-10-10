@@ -7,7 +7,7 @@ use Focuson\AdvancedCoupons\Support\BaseController;
 use Carbon\Carbon;
 use Focuson\AdvancedCoupons\Support\Cache;
 
-class DiscountController extends BaseController
+class DiscountController
 {
 	public static function store_wda_fields($post_id, $coupon)
 	{
@@ -71,7 +71,7 @@ class DiscountController extends BaseController
 		$user = wp_get_current_user();
 
 		$user_orders = Cache::remember('user_' . $user->ID . '_order_count', 10 * 60, function () use ($user) {
-			// Recupera solo gli ordini che sono stati completati o in uno stato valido
+			// Get only completed, processing and on-hold orders
 			$statuses = ['wc-completed', 'wc-processing', 'wc-on-hold'];
 			$orders = wc_get_order([
 				'customer_id' => $user->ID, 

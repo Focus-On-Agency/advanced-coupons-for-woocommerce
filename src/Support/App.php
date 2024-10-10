@@ -40,11 +40,10 @@ class App
 			$namespaceBase = str_replace('Support', '', __NAMESPACE__);
 			$providerClass = $namespaceBase . 'Providers\\' . $fileName;
 
-            // Se la classe esiste, crea un'istanza e chiama il metodo `register`
             if (class_exists($providerClass)) {
                 $provider = new $providerClass($this);
                 
-                // Controlla se il provider ha il metodo `register` e lo chiama
+                // Check if the provider has a register method
                 if (method_exists($provider, 'register')) {
                     $provider->register();
                 }
@@ -56,7 +55,7 @@ class App
     {
         $capsule = new Capsule;
 
-        // Configura la connessione con i dettagli di WordPress
+        // Create a new database connection
         $capsule->addConnection([
             'driver'    => 'mysql',
             'host'      => DB_HOST,
@@ -68,7 +67,7 @@ class App
             'prefix'    => $GLOBALS['wpdb']->prefix, // Usa il prefisso di WordPress
         ]);
 
-        // Rendi Eloquent disponibile globalmente
+        // Make this Capsule instance available globally via static methods
         $capsule->setAsGlobal();
         $capsule->bootEloquent();
     }

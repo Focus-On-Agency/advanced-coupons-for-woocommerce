@@ -10,19 +10,18 @@ class Config
     {
         $configPath = __DIR__ . '/../../config';
 
-        // Carica tutti i file di configurazione
+        // Get all configuration files
         foreach (glob($configPath . '/*.php') as $file) {
             $this->config[basename($file, '.php')] = require $file;
         }
     }
 
     /**
-     * Ottiene un valore di configurazione.
-     *
-     * Supporta l'accesso annidato tramite notazione a punti, es. 'advanced_coupons_for_woocommerce.option1'.
+     * Get a configuration value
      *
      * @param string $key
      * @param mixed $default
+     * 
      * @return mixed
      */
     public function get($key, $default = null)
@@ -30,7 +29,7 @@ class Config
         $keys = explode('.', $key);
         $config = $this->config;
 
-        // Scorri i livelli della chiave
+        // Navigate through the configuration array
         foreach ($keys as $k) {
             if (array_key_exists($k, $config)) {
                 $config = $config[$k];
