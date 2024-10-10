@@ -41,12 +41,12 @@ class FieldServiceProvider extends BaseServiceProvider
 		$tags = Terms::getProductTags()->pluck('name', 'term_id')->toArray();
 
 		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.quantity_restriction-fields';
-		echo esc_html($this->view->render($view));
+		echo $this->view->render($view);
 
 		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.tag_restriction-fields';
-		echo esc_html($this->view->render($view, [
+		echo $this->view->render($view, [
 			'tags' => $tags
-		]));
+		]);
 	}
 
 	public function add_woocommerce_discount_user_history_tab($tabs)
@@ -65,6 +65,6 @@ class FieldServiceProvider extends BaseServiceProvider
 	public function add_user_history_tab_content()
 	{
 		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.user_history-tab';
-		echo esc_html($this->view->render($view));
+		echo $this->view->render($view);
 	}
 }

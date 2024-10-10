@@ -1,3 +1,7 @@
+<?php
+    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+?>
+
 <div id="user_history_data" class="panel woocommerce_options_panel">
     <div class="options_group">
 

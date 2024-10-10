@@ -1,3 +1,7 @@
+<?php
+    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+?>
+
 <div class="options_group">
 	<?php
 	woocommerce_wp_select(array(

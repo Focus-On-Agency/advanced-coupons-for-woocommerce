@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Advanced Coupons for WooCommerce
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 3.0.5
+ * Version: 3.0.6
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
  * Text Domain: advanced-coupons-for-woocommerce
@@ -16,7 +16,6 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Tags: woocommerce, discount, advanced, rules, management
  * Contributors: pcatapan
- * Stable tag: 1.0.0
  * GitHub Plugin URI:
  * Donate link: https://donate.stripe.com/dR6dU04JV0kx1Z6dR6
  */
@@ -24,19 +23,19 @@
 if (!defined('ABSPATH')) exit;
 
 // Initialize the plugin
-add_action('plugins_loaded', 'initialize_advanced_coupons_plugin');
-add_action('before_woocommerce_init', 'declare_woocommerce_compatibility');
+add_action('plugins_loaded', 'focuson_advancedcoupons_init');
+add_action('before_woocommerce_init', 'focuson_advancedcoupons_declare_woocommerce_compatibility');
 
 /**
  * Initialize the plugin
 */
-function initialize_advanced_coupons_plugin()
+function focuson_advancedcoupons_init()
 {
 	// Check plugin requirements
-	if (!check_requirements()) return;
+	if (!focuson_advancedcoupons_check_requirements()) return;
 
 	// Load dependencies
-	load_dependencies();
+	focuson_advancedcoupons_load_dependencies();
 
 	// Load translations
 	load_plugin_textdomain('advanced-coupons-for-woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
@@ -48,11 +47,11 @@ function initialize_advanced_coupons_plugin()
 /**
  * Check plugin requirements
 */
-function check_requirements()
+function focuson_advancedcoupons_check_requirements()
 {
 	// Check for Composer autoloader
 	if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-		display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced-coupons-for-woocommerce'));
+		focuson_advancedcoupons_display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced-coupons-for-woocommerce'));
 		return false;
 	}
 
@@ -62,7 +61,7 @@ function check_requirements()
 /**
  * Load plugin dependencies
 */
-function load_dependencies()
+function focuson_advancedcoupons_load_dependencies()
 {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
@@ -70,7 +69,7 @@ function load_dependencies()
 /**
  * Display an error message and deactivate the plugin
 */
-function display_error_and_deactivate($message)
+function focuson_advancedcoupons_display_error_and_deactivate($message)
 {
 	add_action('admin_notices', function() use ($message) {
 		echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>: ' . esc_html($message) . '</p></div>';
@@ -84,7 +83,7 @@ function display_error_and_deactivate($message)
 /**
  * Declare compatibility with WooCommerce custom order tables
 */
-function declare_woocommerce_compatibility()
+function focuson_advancedcoupons_declare_woocommerce_compatibility()
 {
 	if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
