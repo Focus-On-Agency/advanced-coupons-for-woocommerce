@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'focuson/advanced-coupons-for-woocommerce',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => 'dc2688ca352c1d43749cfb9f9fcde4a5ea681af5',
+        'pretty_version' => '1.0.0+no-version-set',
+        'version' => '1.0.0.0',
+        'reference' => null,
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -38,9 +38,9 @@
             'dev_requirement' => false,
         ),
         'focuson/advanced-coupons-for-woocommerce' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => 'dc2688ca352c1d43749cfb9f9fcde4a5ea681af5',
+            'pretty_version' => '1.0.0+no-version-set',
+            'version' => '1.0.0.0',
+            'reference' => null,
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

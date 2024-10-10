@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Woocommerce Discount Advanced
  * Description: A discount management plugin for WooCommerce, which allows the creation of discounts based on rules such as amount, quantity, type, of products in the cart or even user role and etc...
- * Version: 3.0.2
+ * Version: 3.0.3
  * Author: Focus On
  * Author URI: https://github.com/Focus-On-Agency
  * Text Domain: advanced_coupons_for_woocommerce
@@ -53,12 +53,6 @@ function check_requirements()
 	// Check for Composer autoloader
 	if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 		display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced_coupons_for_woocommerce'));
-		return false;
-	}
-
-	// Check for the main plugin class
-	if (!class_exists(\Focuson\AdvancedCoupons\Support\App::class)) {
-		display_error_and_deactivate(__('Error loading plugin. App class not found.', 'advanced_coupons_for_woocommerce'));
 		return false;
 	}
 
