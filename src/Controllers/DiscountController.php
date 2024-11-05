@@ -12,7 +12,7 @@ class DiscountController
 	public static function store_wda_fields($post_id, $coupon)
 	{
 		// Verify nonce
-		if (!isset($_POST['wda_coupon_nonce']) || !check_admin_referer('wda_save_coupon', 'wda_coupon_nonce')) {
+		if (!current_user_can('manage_woocommerce')) {
 			wp_die(esc_html__('Security check failed. Please try again.', 'advanced-coupons-for-woocommerce'));
 		}
 		
