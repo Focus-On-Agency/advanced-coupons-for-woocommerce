@@ -7,4 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'Focuson\\AdvancedCoupons\\AdvancedCoupons' => $baseDir . '/src/AdvancedCoupons.php',
+    'Focuson\\AdvancedCoupons\\Controllers\\DiscountController' => $baseDir . '/src/Controllers/DiscountController.php',
+    'Focuson\\AdvancedCoupons\\Providers\\FieldServiceProvider' => $baseDir . '/src/Providers/FieldServiceProvider.php',
 );
