@@ -22,6 +22,12 @@
 
 if (!defined('ABSPATH')) exit;
 
+// Prevent plugin activation if WooCommerce is not active
+register_activation_hook(__FILE__, 'focuson_advancedcoupons_check_requirements');
+
+// PSR-4 Autoloader
+require_once plugin_dir_path(__FILE__) . 'vendor/autoload.php';
+
 // Initialize the plugin
 add_action('plugins_loaded', 'focuson_advancedcoupons_init');
 add_action('before_woocommerce_init', 'focuson_advancedcoupons_declare_woocommerce_compatibility');
@@ -31,17 +37,18 @@ add_action('before_woocommerce_init', 'focuson_advancedcoupons_declare_woocommer
 */
 function focuson_advancedcoupons_init()
 {
-	// Check plugin requirements
-	if (!focuson_advancedcoupons_check_requirements()) return;
-
-	// Load dependencies
-	focuson_advancedcoupons_load_dependencies();
-
 	// Load translations
-	load_plugin_textdomain('advanced-coupons-for-woocommerce', false, dirname(plugin_basename(__FILE__)) . '/languages');
+	add_action('init', function () {
+        load_plugin_textdomain(
+            'advanced-coupons-for-woocommerce',
+            false,
+            dirname(plugin_basename(__FILE__)) . '/languages'
+        );
+    });
 
 	// Boot the plugin
-	(new \Focuson\AdvancedCoupons\AdvancedCoupons())->boot();
+    $plugin = new \Focuson\AdvancedCoupons\AdvancedCoupons();
+    $plugin->boot();
 }
 
 /**
@@ -49,21 +56,23 @@ function focuson_advancedcoupons_init()
 */
 function focuson_advancedcoupons_check_requirements()
 {
-	// Check for Composer autoloader
-	if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-		focuson_advancedcoupons_display_error_and_deactivate(__('Error loading plugin. Autoload not found.', 'advanced-coupons-for-woocommerce'));
-		return false;
-	}
+	if (!is_woocommerce_activated())
+	{
+		deactivate_plugins(plugin_basename(__FILE__));
 
-	return true;
-}
+		 // Mostra messaggio di errore
+        wp_die(
+            sprintf(
+                /* translators: 1. URL link. */
+                esc_html__('Advanced Coupons for WooCommerce requires %1$sWooCommerce%2$s to be installed and activated. The plugin has been deactivated.', 'advanced-coupons-for-woocommerce'),
+                '<a href="https://wordpress.org/plugins/woocommerce/" target="_blank">',
+                '</a>'
+            ),
+            esc_html__('Plugin Activation Error', 'advanced-coupons-for-woocommerce'),
+            ['back_link' => true]
+        );
+    }
 
-/**
- * Load plugin dependencies
-*/
-function focuson_advancedcoupons_load_dependencies()
-{
-	require_once __DIR__ . '/vendor/autoload.php';
 }
 
 /**
@@ -75,9 +84,7 @@ function focuson_advancedcoupons_display_error_and_deactivate($message)
 		echo '<div class="notice notice-error"><p><strong>Woo Advanced Discounts</strong>: ' . esc_html($message) . '</p></div>';
 	});
 
-	if (function_exists('deactivate_plugins')) {
-		deactivate_plugins(plugin_basename(__FILE__));
-	}
+	deactivate_plugins(plugin_basename(__FILE__));
 }
 
 /**
@@ -88,4 +95,20 @@ function focuson_advancedcoupons_declare_woocommerce_compatibility()
 	if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
 		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
 	}
+}
+
+/**
+ * Check if WooCommerce is active.
+ *
+ * @return bool true if WooCommerce is active, otherwise false.
+ */
+function is_woocommerce_activated(): bool {
+	return class_exists( 'woocommerce' );
+}
+
+add_action('deactivated_plugin', 'focuson_advancedcoupons_on_woocommerce_deactivation');
+function focuson_advancedcoupons_on_woocommerce_deactivation($plugin, $network_deactivating) {
+    if ($plugin === 'woocommerce/woocommerce.php') {
+        deactivate_plugins(plugin_basename(__FILE__));
+    }
 }

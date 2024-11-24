@@ -3,14 +3,14 @@
 namespace Focuson\AdvancedCoupons\Providers;
 
 use Focuson\AdvancedCoupons\Controllers\DiscountController;
-use Focuson\AdvancedCoupons\Models\Terms;
-use Focuson\AdvancedCoupons\Support\BaseServiceProvider;
 
-class FieldServiceProvider extends BaseServiceProvider
+class FieldServiceProvider
 {
-	public function __construct($app)
+	private $base_dir;
+
+	public function __construct()
 	{
-		parent::__construct($app);
+		$this->base_dir = plugin_dir_path(__FILE__) . '../../resources/views';
 	}
 	
 	public function register()
@@ -38,15 +38,21 @@ class FieldServiceProvider extends BaseServiceProvider
 
 	public function add_fields_to_restriction_tab()
 	{
-		$tags = Terms::getProductTags()->pluck('name', 'term_id')->toArray();
-
-		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.quantity_restriction-fields';
-		echo $this->view->render($view);
-
-		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.tag_restriction-fields';
-		echo $this->view->render($view, [
-			'tags' => $tags
+		$tags = [];
+		$terms = get_terms([
+			'taxonomy'   => 'product_tag',
+			'hide_empty' => false,
 		]);
+
+		if (!is_wp_error($terms)) {
+			foreach ($terms as $term) {
+				$tags[$term->term_id] = $term->name;
+			}
+		}
+
+		$this->get_view('admin/quantity_restriction-fields');
+
+		$this->get_view('admin/tag_restriction-fields', ['tags' => $tags]);
 	}
 
 	public function add_woocommerce_discount_user_history_tab($tabs)
@@ -64,7 +70,19 @@ class FieldServiceProvider extends BaseServiceProvider
 
 	public function add_user_history_tab_content()
 	{
-		$view = $this->config->get('advanced-coupons-for-woocommerce.slug') . '::admin.user_history-tab';
-		echo $this->view->render($view);
+		$this->get_view('admin/user_history-tab');
+	}
+
+	private function get_view($view, $data = [])
+	{
+		$view_path = $this->base_dir . '/' . $view . '.php';
+
+		if (file_exists($view_path)) {
+			extract($data);
+
+			include $view_path;
+		} else {
+			echo '<p>' . esc_html__('View not found:', 'advanced-coupons-for-woocommerce') . ' ' . esc_html($view) . '</p>';
+		}
 	}
 }

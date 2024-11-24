@@ -2,14 +2,9 @@
 
 namespace Focuson\AdvancedCoupons\Controllers;
 
-use Focuson\AdvancedCoupons\Support\BaseController;
-
-use Carbon\Carbon;
-use Focuson\AdvancedCoupons\Support\Cache;
-
 class DiscountController
 {
-	public static function store_wda_fields($post_id, $coupon)
+	static public function store_wda_fields($post_id, $coupon)
 	{
 		// Verify nonce
 		if (!current_user_can('manage_woocommerce')) {
@@ -41,7 +36,7 @@ class DiscountController
 		update_post_meta($post_id, 'wda_apply_automatically', $apply_automatically);
 	}
 
-	public static function validate_wda($valid, $coupon)
+	static public function validate_wda($valid, $coupon)
 	{
 		// Get coupon meta
 		$coupon_meta = get_post_meta($coupon->get_id());
@@ -70,26 +65,12 @@ class DiscountController
 		;
 		$first_order = (bool)($coupon_meta['wda_first_order'][0] ?? false);
 
-
 		// Get cart quantity and user data
 		$cart_quantity = WC()->cart->get_cart_contents_count();
 		$user = wp_get_current_user();
 
-		$user_orders = Cache::remember('user_' . $user->ID . '_order_count', 10 * 60, function () use ($user) {
-			// Get only completed, processing and on-hold orders
-			$statuses = ['wc-completed', 'wc-processing', 'wc-on-hold'];
-			$orders = wc_get_order([
-				'customer_id' => $user->ID, 
-				'post_status' => $statuses,
-				'return' => 'ids'
-			]);
-
-			return $orders ? count($orders) : 0;
-		});
-
-		$total_spent = Cache::remember('user_' . $user->ID . '_total_spent', 10 * 60, function () use ($user) {
-			return wc_get_customer_total_spent($user->ID);
-		});
+		$user_orders = self::get_user_order_count($user->ID);
+		$total_spent = wc_get_customer_total_spent($user->ID);
 
 		// 1. Check min and max quantity
 		if ($min_quantity && $cart_quantity < $min_quantity) {
@@ -159,7 +140,23 @@ class DiscountController
 		return $valid;
 	}
 
-	private static function wda_error_response($message)
+	/**
+	 * Get the total number of completed, processing, or on-hold orders for a user.
+	 */
+	private static function get_user_order_count($user_id)
+	{
+		$query_args = [
+			'customer_id' => $user_id,
+			'status'      => ['wc-completed', 'wc-processing', 'wc-on-hold'],
+			'return'      => 'ids',
+			'limit'       => -1,
+		];
+		$orders = wc_get_orders($query_args);
+
+		return $orders ? count($orders) : 0;
+	}
+
+	static private function wda_error_response($message)
 	{
 		add_filter('woocommerce_coupon_error', function($error, $coupon) use ($message) {
 			return $message;
@@ -171,12 +168,14 @@ class DiscountController
 	/**
 	 * Apply automatic coupons
 	 */
-	public static function wda_apply_automatic_coupons()
+	static public function wda_apply_automatic_coupons()
 	{
-		$cache_duration = Carbon::now()->addYear();
+		$cache_key = 'wda_automatic_coupons';
 
-		$coupons = Cache::remember('wda_automatic_coupons', $cache_duration, function () {
-			return get_posts([
+		$coupons = get_transient($cache_key);
+
+		if ($coupons === false) {
+			$coupons = get_posts([
 				'post_type'      => 'shop_coupon',
 				'posts_per_page' => 50,
 				'meta_query'     => [
@@ -187,7 +186,10 @@ class DiscountController
 				],
 				'post_status'    => 'publish',
 			]);
-		});
+	
+			// Cache the coupons for a year
+			set_transient($cache_key, $coupons, YEAR_IN_SECONDS);
+		}
 
 		$applied_coupons = WC()->cart->get_applied_coupons();
 
@@ -202,11 +204,11 @@ class DiscountController
 		}
 	}
 
-	public static function wda_clear_cache($post_id)
+	static public function wda_clear_cache($post_id)
 	{
 		if(get_post_meta($post_id, 'wda_apply_automatically', true) === 'yes')
 		{
-			Cache::forget('wda_automatic_coupons');            
+			delete_transient('wda_automatic_coupons');            
 		}
 	}
 }
