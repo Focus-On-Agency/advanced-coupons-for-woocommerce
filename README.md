@@ -3,9 +3,9 @@ Contributors: pcatapan
 Donate link: https://donate.stripe.com/dR6dU04JV0kx1Z6dR6
 Tags: woocommerce, discount, advanced, rules, management
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.7.1
 Requires PHP: 7.4
-Stable tag: 3.0.7
+Stable tag: 4.0.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -42,6 +42,10 @@ Yes, **Advanced Coupons for WooCommerce** is fully compatible with HPOS.
 Yes, you can configure discounts that only apply to users with specific roles.
 
 == Changelog ==
+
+= 4.0.0 =
+* Compatibility update with WooCommerce 9.4.2 and WordPress 6.7.1.
+* Remove all dependencies
 
 = 3.0.3 =
 * Compatibility update with WooCommerce 9.0 and WordPress 6.6.
