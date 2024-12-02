@@ -169,40 +169,52 @@ class DiscountController
 	 * Apply automatic coupons
 	 */
 	static public function wda_apply_automatic_coupons()
-	{
-		$cache_key = 'wda_automatic_coupons';
-
-		$coupons = get_transient($cache_key);
-
-		if ($coupons === false) {
-			$coupons = get_posts([
-				'post_type'      => 'shop_coupon',
-				'posts_per_page' => 50,
-				'meta_query'     => [
-					[
-						'key'   => 'wda_apply_automatically',
-						'value' => 'yes',
-					]
-				],
-				'post_status'    => 'publish',
-			]);
-	
-			// Cache the coupons for a year
-			set_transient($cache_key, $coupons, YEAR_IN_SECONDS);
-		}
-
-		$applied_coupons = WC()->cart->get_applied_coupons();
-
-		foreach ($coupons as $coupon) {
-			$coupon_obj = new \WC_Coupon($coupon->ID);
-			$coupon_code = $coupon_obj->get_code();
-	
-			// Check if the coupon has already been applied
-			if (!in_array($coupon_code, $applied_coupons) && $coupon_obj->is_valid()) {
-				WC()->cart->add_discount($coupon_code);
-			}
-		}
-	}
+    {
+    	$cache_key = 'wda_automatic_coupons';
+    
+    	// Recupera i coupon automatici dalla cache, se disponibili
+    	$coupons = get_transient($cache_key);
+    
+    	if ($coupons === false) {
+    		// Ottieni i coupon che devono essere applicati automaticamente
+    		$coupons = get_posts([
+    			'post_type'      => 'shop_coupon',
+    			'posts_per_page' => 50,
+    			'meta_query'     => [
+    				[
+    					'key'   => 'wda_apply_automatically',
+    					'value' => 'yes',
+    				]
+    			],
+    			'post_status'    => 'publish',
+    		]);
+    
+    		// Memorizza i coupon in cache per un anno
+    		set_transient($cache_key, $coupons, YEAR_IN_SECONDS);
+    	}
+    
+    	$applied_coupons = WC()->cart->get_applied_coupons();
+    
+    	// Verifica se esiste già un coupon non cumulabile applicato
+    	foreach ($applied_coupons as $applied_coupon_code) {
+    		$applied_coupon = new \WC_Coupon($applied_coupon_code);
+    
+    		// Se un coupon non cumulabile è applicato, termina
+    		if ($applied_coupon->get_individual_use()) {
+    			return;
+    		}
+    	}
+    
+    	// Applica i coupon automatici validi che non sono già stati applicati
+    	foreach ($coupons as $coupon) {
+    		$coupon_obj = new \WC_Coupon($coupon->ID);
+    
+    		// Aggiungi il coupon solo se non è già applicato e risulta valido
+    		if (!in_array($coupon_obj->get_code(), $applied_coupons) && $coupon_obj->is_valid()) {
+    			WC()->cart->add_discount($coupon_obj->get_code());
+    		}
+    	}
+    }
 
 	static public function wda_clear_cache($post_id)
 	{

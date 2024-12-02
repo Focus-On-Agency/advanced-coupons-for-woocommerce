@@ -107,7 +107,13 @@ function is_woocommerce_activated(): bool {
 }
 
 add_action('deactivated_plugin', 'focuson_advancedcoupons_on_woocommerce_deactivation');
-function focuson_advancedcoupons_on_woocommerce_deactivation($plugin, $network_deactivating) {
+
+/**
+ * Handles WooCommerce deactivation.
+ *
+ * @param string $plugin The plugin being deactivated.
+ */
+function focuson_advancedcoupons_on_woocommerce_deactivation($plugin) {
     if ($plugin === 'woocommerce/woocommerce.php') {
         deactivate_plugins(plugin_basename(__FILE__));
     }
